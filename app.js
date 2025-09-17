@@ -3,7 +3,7 @@ const port = 3000;
 const app = express();
 app.use(express.json());
 
-const customers = [
+let customers = [
   {
     id: 1,
     name: "Zoli",
@@ -47,6 +47,23 @@ app.post("/customers", (req, res) => {
   const id = customers[customers.length - 1]?.id + 1 || 1;
   const customer = { id, name, email };
   customers.push(customer);
+  res.status(200).json(customer);
+});
+
+app.put("/customers/:id", (req, res) => {
+  const id = req.params.id;
+  let customer = customers.find((c) => c.id == id);
+  if (!customer) {
+    return res.status(404).json({ message: "Customer not found!" });
+  }
+  const { name, email } = req.body;
+  if (!name || !email) {
+    return res.status(400).json({ message: "Invalis credentials!" });
+  }
+  const index = customers.indexOf(customer);
+  customer = { ...customer, name, email };
+  customers[index] = customer;
+
   res.status(200).json(customer);
 });
 
