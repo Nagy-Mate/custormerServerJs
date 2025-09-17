@@ -67,6 +67,11 @@ app.put("/customers/:id", (req, res) => {
   res.status(200).json(customer);
 });
 
+app.delete("/customers/:id", (req, res) => {
+  const id = req.params.id;
+  customers = customers.filter((c) => c.id != id);
+  res.status(200).json({ message: "Deleted successfuly" });
+});
 
 app.listen(port, () => {
   console.log(`Server runs on ${port}`);
