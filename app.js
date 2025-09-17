@@ -30,6 +30,15 @@ app.get("/customers", (req, res) => {
   res.status(200).json(customers);
 });
 
+app.get("/customer/:id", (req, res) => {
+  const id = req.params.id;
+  const customer = customers.find((c) => c.id == id);
+  if (!customer) {
+    return res.status(404).json({ message: "Customer not found" });
+  }
+  res.status(200).json(customer);
+});
+
 app.listen(port, () => {
   console.log(`Server runs on ${port}`);
 });
